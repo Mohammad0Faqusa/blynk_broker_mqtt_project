@@ -1,10 +1,8 @@
-
 // wokwi link : https://wokwi.com/projects/415730591033916417
 
-#define BLYNK_PRINT Serial
-#define BLYNK_TEMPLATE_ID "TMPL3dJzl3gcu"
-#define BLYNK_TEMPLATE_NAME "dht"
-#define BLYNK_AUTH_TOKEN "__E6vMbmQG8DDemcksSX9k6pnxjPWHF1"
+#define BLYNK_TEMPLATE_NAME "template for device dht"
+#define BLYNK_AUTH_TOKEN "-bMpATMoBbRF2sMTf_njePQkD5HTb68W"
+#define BLYNK_TEMPLATE_ID "TMPL6oWXBQPT6"
 
 #include <WiFi.h>
 #include <WiFiClient.h>

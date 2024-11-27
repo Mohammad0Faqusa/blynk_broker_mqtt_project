@@ -1,0 +1,53 @@
+
+// wokwi link : https://wokwi.com/projects/415730591033916417
+
+#define BLYNK_PRINT Serial
+#define BLYNK_TEMPLATE_ID "TMPL3dJzl3gcu"
+#define BLYNK_TEMPLATE_NAME "dht"
+#define BLYNK_AUTH_TOKEN "__E6vMbmQG8DDemcksSX9k6pnxjPWHF1"
+
+#include <WiFi.h>
+#include <WiFiClient.h>
+#include <BlynkSimpleEsp32.h>
+#include "DHTesp.h"
+
+const int DHT_PIN = 15;
+DHTesp dhtSensor;
+
+char auth[] = BLYNK_AUTH_TOKEN;
+char ssid[] = "Wokwi-GUEST";
+char pass[] = "";
+
+BlynkTimer timer;
+
+void sendSensor()
+{
+    TempAndHumidity data = dhtSensor.getTempAndHumidity();
+    Serial.println("Temp: " + String(data.temperature, 2) + "°C");
+    Serial.println("Humidity: " + String(data.humidity, 1) + "%");
+    Serial.println("---");
+    Blynk.virtualWrite(V0, data.temperature);
+    Blynk.virtualWrite(V1, data.humidity);
+}
+
+void setup()
+{
+    Serial.begin(9600);
+    Blynk.begin(auth, ssid, pass);
+    pinMode(2, OUTPUT);
+    dhtSensor.setup(DHT_PIN, DHTesp::DHT22);
+    timer.setInterval(1000, sendSensor);
+}
+
+void loop()
+{
+    Blynk.run();
+    timer.run();
+}
+
+BLYNK_WRITE(V2)
+{
+    int pinValue = param.asInt();
+    Serial.print("V2 Switch value is: ");
+    Serial.println(pinValue);
+}

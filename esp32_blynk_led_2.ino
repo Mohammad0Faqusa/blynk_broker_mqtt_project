@@ -1,15 +1,16 @@
-// wokwi link : https://wokwi.com/projects/415730647879343105
 /*************************************************************
 
   This is a simple demo of sending and receiving some data.
   Be sure to check out other examples!
  *************************************************************/
 
+/***********************************************
+ wokwi link : https://wokwi.com/projects/415730647879343105
+ *****************************************************/
 /* Fill-in information from Blynk Device Info here */
-#define BLYNK_TEMPLATE_ID "TMPL6Ine-LWO5"
-#define BLYNK_TEMPLATE_NAME "Quickstart Template"
-#define BLYNK_AUTH_TOKEN "w2Y-OQsWXCBIrJYKs_bZsFYErfx1dj6J"
-
+#define BLYNK_TEMPLATE_ID "TMPL6nlea1cHK"
+#define BLYNK_TEMPLATE_NAME "template device led"
+#define BLYNK_AUTH_TOKEN "lrrxUvh9QOy2ELILvNtX092wMUVl3yEa"
 /* Comment this out to disable prints and save space */
 #define BLYNK_PRINT Serial
 

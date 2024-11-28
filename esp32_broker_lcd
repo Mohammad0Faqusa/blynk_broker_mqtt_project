@@ -5,7 +5,6 @@
     ID : 201014
     github link :
 */
-
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <LiquidCrystal_I2C.h>
@@ -85,25 +84,52 @@ void callback(char *topic, byte *payload, unsigned int length)
     Serial.print("Message arrived [");
     Serial.print(topic);
     Serial.print("] ");
-    for (int i = 0; i < length; i++)
+
+    // Convert payload to a null-terminated string
+    char message[length + 1];
+    strncpy(message, (char *)payload, length);
+    message[length] = '\0'; // Add null terminator
+
+    Serial.println(message);
+
+    // Split the message by ',' into two parts
+    char *part1 = strtok(message, ",");
+    char *part2 = strtok(NULL, ",");
+
+    // Display the parts on the LCD
+    lcd.clear();
+    if (part1 != NULL)
     {
-        Serial.print((char)payload[i]);
+        lcd.setCursor(0, 0);
+        lcd.print(part1); // Display first part on the first line
+    }
+    if (part2 != NULL)
+    {
+        lcd.setCursor(0, 1);
+        lcd.print(part2); // Display second part on the second line
     }
 }
-void reconnectMQTT()
+
+void reconnect()
 {
+    // Loop until we’re reconnected
     while (!client.connected())
     {
-        Serial.println("Attempting MQTT connection...");
-        if (client.connect("ESP32_Receiver", mqtt_username, mqtt_password))
+        Serial.print("Attempting MQTT connection… ");
+        String clientId = "ESP32ClientLCD";
+        // Attempt to connect
+        if (client.connect(clientId.c_str(), mqtt_username, mqtt_password))
         {
-            Serial.println("Connected to MQTT broker");
+            Serial.println("connected!");
+            // Once connected, publish an announcement...
             client.subscribe(topic);
         }
         else
         {
-            Serial.print("Failed to connect. State: ");
-            Serial.println(client.state());
+            Serial.print("failed, rc = ");
+            Serial.print(client.state());
+            Serial.println(" try again in 5 seconds");
+            // Wait 5 seconds before retrying
             delay(2000);
         }
     }
@@ -145,7 +171,7 @@ void loop()
 {
     if (!client.connected())
     {
-        reconnectMQTT();
+        reconnect();
     }
     client.loop();
     delay(1000);

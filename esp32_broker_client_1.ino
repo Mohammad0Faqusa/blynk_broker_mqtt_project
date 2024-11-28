@@ -1,22 +1,29 @@
-// wokwi link : https://wokwi.com/projects/415726464012155905
+
+
+/*
+    wokwi link : https://wokwi.com/projects/415726464012155905
+    Name : Mohammad Faqusa
+    ID : 201014
+    github link : https://github.com/Mohammad0Faqusa/blynk_broker_mqtt_project.git
+*/
 
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 #include <PubSubClient.h>
 
 // WiFi credentials
-const char* ssid = "Wokwi-GUEST";
-const char* wifi_password = "";
+const char *ssid = "Wokwi-GUEST";
+const char *wifi_password = "";
 
 // HiveMQ Cloud Broker settings
-const char* mqtt_server = "indigosquash-lwqj6m.a03.euc1.aws.hivemq.cloud";
+const char *mqtt_server = "indigosquash-lwqj6m.a03.euc1.aws.hivemq.cloud";
 const int mqtt_port = 8883;
-const char* mqtt_username = "mohammad";
-const char* mqtt_password = "Mohammad123";
+const char *mqtt_username = "mohammad";
+const char *mqtt_password = "Mohammad123";
 
 // MQTT topics
-const char* temp_topic = "temp";
-const char* led_topic = "led";
+const char *temp_topic = "temp";
+const char *led_topic = "led";
 
 // HiveMQ Cloud Let's Encrypt CA certificate
 static const char *root_ca PROGMEM = R"EOF(
@@ -59,7 +66,8 @@ PubSubClient client(espClient);
 // Define the button pin
 #define BUTTON_PIN 13 // D13 on ESP32 Wokwi
 
-void setup_wifi() {
+void setup_wifi()
+{
   delay(10);
   Serial.println();
   Serial.print("Connecting to ");
@@ -68,7 +76,8 @@ void setup_wifi() {
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, wifi_password);
 
-  while (WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED)
+  {
     delay(500);
     Serial.print(".");
   }
@@ -78,19 +87,22 @@ void setup_wifi() {
   Serial.println(WiFi.localIP());
 }
 
-void callback(char* topic, byte* payload, unsigned int length) {
+void callback(char *topic, byte *payload, unsigned int length)
+{
   // Handle incoming messages
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
 
   String message;
-  for (unsigned int i = 0; i < length; i++) {
+  for (unsigned int i = 0; i < length; i++)
+  {
     message += (char)payload[i];
   }
   Serial.println(message);
 
-  if (String(topic) == temp_topic) {
+  if (String(topic) == temp_topic)
+  {
     Serial.print("Received temperature: ");
     Serial.println(message);
 
@@ -98,18 +110,23 @@ void callback(char* topic, byte* payload, unsigned int length) {
   }
 }
 
-void reconnect() {
+void reconnect()
+{
   // Loop until we're reconnected
-  while (!client.connected()) {
+  while (!client.connected())
+  {
     Serial.print("Attempting MQTT connection... ");
     String clientId = "ESP32Client-" + String(random(0xffff), HEX);
 
-    if (client.connect(clientId.c_str(), mqtt_username, mqtt_password)) {
+    if (client.connect(clientId.c_str(), mqtt_username, mqtt_password))
+    {
       Serial.println("connected");
       // Once connected, subscribe to the temp topic
       client.subscribe(temp_topic);
       Serial.println("Subscribed to temp topic");
-    } else {
+    }
+    else
+    {
       Serial.print("failed, rc=");
       Serial.print(client.state());
       Serial.println(" trying again in 5 seconds");
@@ -118,7 +135,8 @@ void reconnect() {
   }
 }
 
-void setup() {
+void setup()
+{
   delay(500);
   Serial.begin(115200);
   delay(500);
@@ -135,8 +153,10 @@ void setup() {
   reconnect();
 }
 
-void loop() {
-  if (!client.connected()) {
+void loop()
+{
+  if (!client.connected())
+  {
     reconnect();
   }
   client.loop();
@@ -146,14 +166,16 @@ void loop() {
   bool buttonState = digitalRead(BUTTON_PIN);
 
   // Check if the button is pressed
-  if (buttonState == LOW && lastButtonState == HIGH) {
+  if (buttonState == LOW && lastButtonState == HIGH)
+  {
     // Debounce delay
-    if (millis() - lastButtonPress > 50) {
+    if (millis() - lastButtonPress > 50)
+    {
       lastButtonPress = millis();
       // Toggle the LED by publishing to the "led" topic
       static bool ledState = false;
       ledState = !ledState;
-      const char* ledMessage = ledState ? "1" : "0";
+      const char *ledMessage = ledState ? "1" : "0";
       client.publish(led_topic, ledMessage);
       Serial.print("Published to led topic: ");
       Serial.println(ledMessage);

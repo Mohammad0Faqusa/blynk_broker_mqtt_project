@@ -1,3 +1,10 @@
+/*
+    wokwi link : https://wokwi.com/projects/415730591033916417
+    Name : Mohammad Faqusa
+    ID : 201014
+    github link : https://github.com/Mohammad0Faqusa/blynk_broker_mqtt_project.git
+*/
+
 #define BLYNK_TEMPLATE_NAME "template for device dht"
 #define BLYNK_AUTH_TOKEN "-bMpATMoBbRF2sMTf_njePQkD5HTb68W"
 #define BLYNK_TEMPLATE_ID "TMPL6oWXBQPT6"

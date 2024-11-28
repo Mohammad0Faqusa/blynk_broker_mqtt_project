@@ -1,12 +1,11 @@
-/*************************************************************
 
-  This is a simple demo of sending and receiving some data.
-  Be sure to check out other examples!
- *************************************************************/
+/*
+    wokwi link : https://wokwi.com/projects/415730647879343105
+    Name : Mohammad Faqusa
+    ID : 201014
+    github link : https://github.com/Mohammad0Faqusa/blynk_broker_mqtt_project.git
+*/
 
-/***********************************************
- wokwi link : https://wokwi.com/projects/415730647879343105
- *****************************************************/
 /* Fill-in information from Blynk Device Info here */
 #define BLYNK_TEMPLATE_ID "TMPL6nlea1cHK"
 #define BLYNK_TEMPLATE_NAME "template device led"

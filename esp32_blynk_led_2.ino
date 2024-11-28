@@ -32,10 +32,7 @@ BLYNK_WRITE(V0)
     int value = param.asInt();
     Serial.println("Value : " + String(value));
 
-    if (value)
-        digitalWrite(2, HIGH);
-    else
-        digitalWrite(2, LOW);
+    analogWrite(2, value);
 
     // Update state
     Blynk.virtualWrite(V1, value);
